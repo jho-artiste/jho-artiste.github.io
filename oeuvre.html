@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Œuvre — jho</title>
+<meta name="description" content="Détail d'une œuvre de jho.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/components.js" defer></script>
+<script src="assets/js/works.js" defer></script>
+</head>
+<body>
+
+<jho-header active="galerie"></jho-header>
+
+<nav class="breadcrumb">
+  <a href="galerie.html">Galerie</a>
+  <span class="sep">/</span>
+  <span class="current" data-field="title">…</span>
+</nav>
+
+<section class="work-detail">
+  <div class="work-visual placeholder" data-field="visual">
+    <span class="placeholder-label" data-field="size-label">…</span>
+  </div>
+
+  <div class="work-info">
+    <div class="eyebrow-muted" data-field="eyebrow">…</div>
+    <h1 data-field="title-h1">…</h1>
+    <p class="lead" data-field="description">…</p>
+
+    <div class="specs" data-field="specs"></div>
+
+    <div class="price" data-field="price-block" hidden>
+      <span class="label">Prix</span>
+      <span class="value" data-field="price">—</span>
+    </div>
+
+    <a href="contact.html" class="btn-solid">Demander cette œuvre</a>
+    <a href="contact.html" class="btn-outline">Réserver une visite d'atelier</a>
+  </div>
+</section>
+
+<section class="related-works">
+  <div class="related-head">
+    <h2>Œuvres associées</h2>
+    <a href="galerie.html" class="link-underline">Toute la galerie</a>
+  </div>
+  <div class="works-grid" data-grid="related"></div>
+</section>
+
+<jho-footer></jho-footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var slug = new URLSearchParams(location.search).get('w');
+    var work = (slug && JHO.findWork(slug)) || window.JHO_WORKS[0];
+    if (!work) return;
+
+    document.title = work.title + ' — jho';
+
+    var $ = function (sel) { return document.querySelector(sel); };
+    var setText = function (sel, txt) { var el = $(sel); if (el) el.textContent = txt; };
+
+    setText('[data-field="title"]',     work.title);
+    setText('[data-field="title-h1"]',  work.title);
+    setText('[data-field="eyebrow"]',   work.year + ' · ' + work.technique);
+    setText('[data-field="description"]', work.description || '');
+    setText('[data-field="size-label"]', work.size || '');
+
+    var visual = $('[data-field="visual"]');
+    if (work.img) {
+      visual.classList.remove('placeholder');
+      var img = document.createElement('img');
+      img.src = work.img;
+      img.alt = work.title;
+      img.onerror = function () {
+        visual.classList.add('placeholder');
+        img.remove();
+      };
+      visual.insertBefore(img, visual.firstChild);
+    }
+
+    var specs = [
+      ['Année',         work.year],
+      ['Technique',     work.technique],
+      ['Dimensions',    work.size],
+      ['Disponibilité', work.availability || '—'],
+    ];
+    $('[data-field="specs"]').innerHTML = specs.map(function (row) {
+      return '<div class="spec-row"><span class="k">' + JHO.escapeHtml(row[0]) + '</span><span class="v">' + JHO.escapeHtml(row[1]) + '</span></div>';
+    }).join('');
+
+    if (work.price) {
+      $('[data-field="price-block"]').hidden = false;
+      setText('[data-field="price"]', work.price);
+    }
+
+    JHO.renderGrid('[data-grid="related"]', { exclude: work.slug, limit: 3, size: 'short' });
+  });
+</script>
+</body>
+</html>

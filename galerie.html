@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galerie — jho</title>
+<meta name="description" content="Galerie d'œuvres de jho — peintures originales.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/components.js" defer></script>
+<script src="assets/js/works.js" defer></script>
+</head>
+<body>
+
+<jho-header active="galerie"></jho-header>
+
+<section class="page-head">
+  <div class="eyebrow-muted">Galerie</div>
+  <h1>Œuvres</h1>
+  <p>L'ensemble des toiles disponibles ou archivées. Cliquez sur une œuvre pour en découvrir le détail.</p>
+</section>
+
+<section class="works alone">
+  <div class="works-grid" data-grid="all"></div>
+</section>
+
+<jho-footer></jho-footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    JHO.renderGrid('[data-grid="all"]', { size: 'tall' });
+  });
+</script>
+</body>
+</html>

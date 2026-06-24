@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jho — Artiste peintre, Paris</title>
+<meta name="description" content="Portfolio de jho, artiste peintre parisienne. Œuvres figuratives et travail de la matière depuis 2012.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/components.js" defer></script>
+<script src="assets/js/works.js" defer></script>
+</head>
+<body>
+
+<jho-header active="accueil"></jho-header>
+
+<section class="hero">
+  <span class="placeholder-label">image ou vidéo de fond · œuvre emblématique</span>
+  <div class="veil"></div>
+  <div class="content">
+    <div class="eyebrow">jho</div>
+    <h1>Artiste peintre</h1>
+    <div class="sub">Paris — depuis 2012</div>
+    <a href="galerie.html" class="cta">Galerie</a>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="portrait">
+    <span class="placeholder-label">portrait · atelier</span>
+  </div>
+  <div>
+    <div class="eyebrow-muted">L'univers</div>
+    <h2>Une peinture du vivant, où la matière devient présence.</h2>
+    <p>jho peint le réel comme on l'observe longuement — animaux, paysages, portraits — jusqu'à ce qu'une vibration paisible se dégage de la surface. Chaque toile est un temps long, fait de couches, de glacis et d'attente.</p>
+    <div class="signature">— Paris, atelier du 11ᵉ</div>
+  </div>
+</section>
+
+<section class="works">
+  <div class="works-head">
+    <h2>Œuvres récentes</h2>
+    <a href="galerie.html" class="link">Toute la galerie</a>
+  </div>
+  <div class="works-grid" data-grid="featured"></div>
+</section>
+
+<jho-footer></jho-footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    JHO.renderGrid('[data-grid="featured"]', { featuredOnly: true, size: 'tall' });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — jho</title>
+<meta name="description" content="Contacter l'atelier de jho pour une œuvre, une commande ou une visite.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/components.js" defer></script>
+</head>
+<body>
+
+<jho-header active="contact"></jho-header>
+
+<section class="contact">
+  <div>
+    <div class="eyebrow-muted">Contact</div>
+    <h1>Écrire à l'atelier.</h1>
+    <p class="lead">Pour toute demande d'œuvre, de commande ou de visite d'atelier, n'hésitez pas à laisser un message. Réponse sous quelques jours.</p>
+
+    <div class="contact-info">
+      <div>
+        <div class="label">Email</div>
+        <div class="value">atelier@jho.art</div>
+      </div>
+      <div>
+        <div class="label">Téléphone</div>
+        <div class="value">+33 6 00 00 00 00</div>
+      </div>
+      <div>
+        <div class="label">Atelier</div>
+        <div class="value">11ᵉ arrondissement, Paris</div>
+      </div>
+    </div>
+  </div>
+
+  <form class="contact-form" onsubmit="event.preventDefault();">
+    <div class="fields">
+      <div class="field">
+        <label for="nom">Nom</label>
+        <input id="nom" type="text" placeholder="Votre nom">
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="vous@exemple.com">
+      </div>
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" rows="5" placeholder="Votre message"></textarea>
+      </div>
+      <button type="submit">Envoyer</button>
+    </div>
+  </form>
+</section>
+
+<jho-footer></jho-footer>
+
+</body>
+</html>
