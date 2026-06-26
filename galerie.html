@@ -22,6 +22,17 @@
   <p>L'ensemble des toiles disponibles ou archivées. Cliquez sur une œuvre pour en découvrir le détail.</p>
 </section>
 
+<section class="filters">
+  <span class="filters-title">Filtre</span>
+  <div class="filter-chips">
+    <button type="button" class="filter-chip active" data-group="reset">Tout</button>
+    <button type="button" class="filter-chip" data-group="status" data-value="available">Disponible</button>
+    <button type="button" class="filter-chip" data-group="status" data-value="sold">Vendue</button>
+    <button type="button" class="filter-chip" data-group="kind" data-value="original">Jho création</button>
+    <button type="button" class="filter-chip" data-group="kind" data-value="custom">Personnalisé</button>
+  </div>
+</section>
+
 <section class="works alone">
   <div class="works-grid" data-grid="all"></div>
 </section>
@@ -30,7 +41,8 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    JHO.renderGrid('[data-grid="all"]', { size: 'tall' });
+    JHO.renderGrid('[data-grid="all"]', { size: 'tall', enable3d: true });
+    JHO.initFilters({ cards: '[data-grid="all"] .work-card' });
   });
 </script>
 </body>

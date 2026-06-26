@@ -55,7 +55,7 @@ img { max-width: 100%; display: block; }
   z-index: 60;
   width: 48px;
   height: 48px;
-  background: var(--bg-white);
+  background: var(--bg);
   border: none;
   padding: 0;
   cursor: pointer;
@@ -421,6 +421,91 @@ img { max-width: 100%; display: block; }
   letter-spacing: .1em;
   color: var(--dark-soft);
   margin-top: 6px;
+}
+
+/* Galerie — filtres */
+.filters {
+  padding: 0 100px 48px;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 32px;
+  font-size: 12px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  flex-wrap: wrap;
+}
+.filters-title { color: var(--muted); }
+.filter-chips { display: flex; gap: 22px; flex-wrap: wrap; }
+.filter-chip {
+  background: none;
+  border: none;
+  padding: 4px 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: color .3s ease, border-color .3s ease;
+}
+.filter-chip:hover { color: var(--ink); }
+.filter-chip.active {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+/* Galerie — disposition en maçonnerie (3 colonnes, hauteurs naturelles) */
+.works.alone .works-grid {
+  display: block;
+  column-count: 3;
+  column-gap: 36px;
+  perspective: 1500px;
+}
+.works.alone .work-card,
+.works.alone .work-card.tall,
+.works.alone .work-card.short {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 200px;
+  margin: 0 0 36px;
+  border-radius: 5px;
+  break-inside: avoid;
+  transform-style: preserve-3d;
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1), box-shadow .4s ease;
+  --mx: 50%;
+  --my: 50%;
+  will-change: transform;
+}
+.works.alone .work-card img {
+  position: static;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.works.alone .work-card .size { display: none; }
+.works.alone .work-card:hover {
+  box-shadow: 0 24px 60px -20px rgba(20, 20, 18, .35);
+}
+.works.alone .work-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--mx) var(--my),
+              rgba(255, 255, 255, .22) 0%,
+              rgba(255, 255, 255, .08) 30%,
+              transparent 60%);
+  opacity: 0;
+  transition: opacity .35s ease;
+  mix-blend-mode: screen;
+}
+.works.alone .work-card:hover::after { opacity: 1; }
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .works.alone .work-card { transform: none !important; }
+  .works.alone .work-card::after { display: none; }
 }
 
 /* Tile background variants */
@@ -831,10 +916,11 @@ jho-footer .lines a:hover { color: var(--bg); }
   }
   .about-intro .portrait,
   .work-info { position: static; }
-  .works, .works.alone, .milestones, .related-works { padding-left: 40px; padding-right: 40px; }
+  .works, .works.alone, .milestones, .related-works, .filters { padding-left: 40px; padding-right: 40px; }
   .page-head { padding: 64px 40px 32px; }
   .breadcrumb { padding-left: 40px; padding-right: 40px; }
   .works-grid { grid-template-columns: repeat(2, 1fr); }
+  .works.alone .works-grid { column-count: 2; }
   .milestones-grid { grid-template-columns: 1fr; gap: 32px; }
   jho-footer { padding: 64px 40px 36px; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -853,13 +939,14 @@ jho-footer .lines a:hover { color: var(--bg); }
   .page-head h1, .about-intro h1, .contact h1 { font-size: 42px; }
   .intro h2 { font-size: 30px; }
   .works-grid { grid-template-columns: 1fr; }
+  .works.alone .works-grid { column-count: 1; }
   .work-card, .work-card.tall, .work-card.short { height: 300px; }
   .work-visual { height: 420px; }
   .work-info h1 { font-size: 42px; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; gap: 12px; }
   .intro, .about-intro, .contact, .work-detail,
-  .works, .works.alone, .milestones, .related-works,
+  .works, .works.alone, .milestones, .related-works, .filters,
   .page-head, .breadcrumb, jho-footer {
     padding-left: 20px; padding-right: 20px;
   }
