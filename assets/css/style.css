@@ -206,22 +206,18 @@ img { max-width: 100%; display: block; }
 .hero .veil { z-index: 1; }
 .hero .content { z-index: 3; }
 
-/* Ink reveal — éclaboussure d'encre qui se résorbe au chargement */
-.ink-reveal {
+/* Ink reveal — masque "toile" que la souris essuie pour révéler la vidéo */
+.ink-reveal-canvas {
   position: absolute; inset: 0;
   z-index: 2;
-  pointer-events: none;
-  animation: ink-dissolve 1.8s cubic-bezier(.76, 0, .24, 1) forwards;
+  cursor: none;
+  display: block;
 }
-.ink-reveal svg { width: 100%; height: 100%; display: block; }
-.ink-reveal path { fill: #1c1b19; }
-@keyframes ink-dissolve {
-  0%   { opacity: 1; transform: scale(1); }
-  60%  { opacity: 1; transform: scale(1.25); }
-  100% { opacity: 0; transform: scale(2.2); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ink-reveal { display: none; }
+.hero .content { pointer-events: none; }
+.hero .content .cta { pointer-events: auto; }
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .ink-reveal-canvas { display: none; }
+  .hero .content { pointer-events: auto; }
 }
 .hero .placeholder-label {
   position: absolute; left: 50%; top: 50%;
