@@ -91,7 +91,7 @@ img { max-width: 100%; display: block; }
   width: 100vw;
   max-width: 640px;
   z-index: 40;
-  background: var(--bg-white);
+  background: var(--bg);
   transform: translateX(calc(100% + 100px));
   transition: transform .8s cubic-bezier(.76,0,.24,1);
   will-change: transform;
@@ -104,7 +104,7 @@ img { max-width: 100%; display: block; }
   left: -99px;
   width: 100px;
   height: 100%;
-  fill: var(--bg-white);
+  fill: var(--bg);
   stroke: none;
   pointer-events: none;
 }
