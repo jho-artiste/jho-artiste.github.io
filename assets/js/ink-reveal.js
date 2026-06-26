@@ -127,6 +127,16 @@
     });
     canvas.addEventListener('mouseleave', function () { lastPos = null; });
 
+    // Tactile : le doigt qui glisse fait office de pinceau
+    canvas.addEventListener('touchstart', function (e) {
+      var p = posFrom(e); lastPos = p; stampAlong(p.x, p.y); startLoop();
+    }, { passive: true });
+    canvas.addEventListener('touchmove', function (e) {
+      var p = posFrom(e); stampAlong(p.x, p.y); startLoop();
+    }, { passive: true });
+    canvas.addEventListener('touchend', function () { lastPos = null; });
+    canvas.addEventListener('touchcancel', function () { lastPos = null; });
+
     resize();
     var ro;
     if (window.ResizeObserver) {

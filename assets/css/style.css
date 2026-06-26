@@ -216,7 +216,7 @@ img { max-width: 100%; display: block; }
 }
 .hero .content { pointer-events: none; }
 .hero .content .cta { pointer-events: auto; }
-@media (hover: none), (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce) {
   .ink-reveal-canvas { display: none; }
   .hero .content { pointer-events: auto; }
 }
