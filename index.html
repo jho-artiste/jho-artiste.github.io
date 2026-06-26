@@ -18,7 +18,7 @@
 <jho-header active="accueil"></jho-header>
 
 <section class="hero">
-  <video src="assets/img/video-02.mp4" autoplay loop muted playsinline poster="assets/img/hero.png"></video>
+  <video src="assets/img/video-01.mp4" autoplay loop muted playsinline poster="assets/img/hero.png"></video>
   <div class="veil"></div>
   <canvas class="ink-reveal-canvas" aria-hidden="true"></canvas>
   <div class="content">
@@ -55,8 +55,10 @@
   document.addEventListener('DOMContentLoaded', function () {
     JHO.renderGrid('[data-grid="featured"]', { featuredOnly: true, size: 'tall' });
     JHO.initInkReveal(document.querySelector('.ink-reveal-canvas'), {
-      maskColor: [28, 27, 25], // #1c1b19 — toile sombre, accord avec le footer
-      brushSize: 160,
+      maskColor: [244, 241, 234], // #f4f1ea — cream, raccord avec le fond de page
+      brushSize: 160, // ← taille max du pinceau en pixels (rayon du tracé)
+      lifetime: 8000, // ← durée (ms) avant que la trace d'encre se résorbe
+      maxStamps: 16000, // ← longueur max du tracé (au-delà, le bout se "mange")
     });
   });
 </script>
