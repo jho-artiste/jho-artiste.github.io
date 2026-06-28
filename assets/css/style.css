@@ -436,7 +436,8 @@ img { max-width: 100%; display: block; }
   flex-wrap: wrap;
 }
 .filters-title { color: var(--muted); }
-.filter-chips { display: flex; gap: 22px; flex-wrap: wrap; }
+.filter-chips { display: flex; gap: 18px; flex-wrap: wrap; }
+
 .filter-chip {
   background: none;
   border: none;
