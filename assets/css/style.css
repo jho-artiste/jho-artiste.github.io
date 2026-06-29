@@ -339,6 +339,91 @@ img { max-width: 100%; display: block; }
   color: var(--green);
 }
 
+/* ===== Zoom parallax (accueil) — reproduction exacte du composant ZoomParallax ===== */
+.zoom-parallax {
+  position: relative;
+  height: 300vh;
+}
+.zoom-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+}
+.zp-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 1.18;
+  color: var(--ink);
+  text-align: center;
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0;
+}
+.zp-tile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center;
+  will-change: transform;
+}
+.zp-inner {
+  position: relative;
+  width: 25vw;
+  height: 25vh;
+  overflow: hidden;
+}
+.zp-link, .zp-link img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.zp-link img {
+  object-fit: cover;
+}
+/* Positions/tailles exactes des 7 tuiles (composant d'origine) */
+.zp-tile:nth-of-type(1) .zp-inner {
+  width: 25vw; height: 25vh;
+}
+.zp-tile:nth-of-type(2) .zp-inner {
+  top: -30vh; left: 5vw;
+  width: 35vw; height: 30vh;
+}
+.zp-tile:nth-of-type(3) .zp-inner {
+  top: -10vh; left: -25vw;
+  width: 20vw; height: 45vh;
+}
+.zp-tile:nth-of-type(4) .zp-inner {
+  left: 27.5vw;
+  width: 25vw; height: 25vh;
+}
+.zp-tile:nth-of-type(5) .zp-inner {
+  top: 27.5vh; left: 5vw;
+  width: 20vw; height: 25vh;
+}
+.zp-tile:nth-of-type(6) .zp-inner {
+  top: 27.5vh; left: -22.5vw;
+  width: 30vw; height: 25vh;
+}
+.zp-tile:nth-of-type(7) .zp-inner {
+  top: 22.5vh; left: 25vw;
+  width: 15vw; height: 15vh;
+}
+
 /* ===== Works grid ===== */
 .works {
   padding: 40px 100px 130px;

@@ -12,6 +12,7 @@
 <script src="assets/js/components.js" defer></script>
 <script src="assets/js/works.js" defer></script>
 <script src="assets/js/ink-reveal.js" defer></script>
+<script src="assets/js/zoom-parallax.js" defer></script>
 </head>
 <body>
 
@@ -41,19 +42,16 @@
   </div>
 </section>
 
-<section class="works">
-  <div class="works-head">
-    <h2>Œuvres récentes</h2>
-    <a href="galerie.html" class="link">Toute la galerie</a>
+<section class="zoom-parallax" id="zoom-parallax">
+  <div class="zoom-stage" data-zoom-stage>
+    <p class="zp-bg-text">votre peinture personnaliser</p>
   </div>
-  <div class="works-grid" data-grid="featured"></div>
 </section>
 
 <jho-footer></jho-footer>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    JHO.renderGrid('[data-grid="featured"]', { featuredOnly: true, size: 'tall' });
     JHO.initInkReveal(document.querySelector('.ink-reveal-canvas'), {
       maskColor: [244, 241, 234], // #f4f1ea — cream, raccord avec le fond de page
       brushSize: 160, // ← taille max du pinceau en pixels (rayon du tracé)
