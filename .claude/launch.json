@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "jho-site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/private/tmp/claude-501/-Users-vivasante-Desktop-Perso-Projets-Pro-Joh-Claude-code---jho/63207a05-d080-45e0-9a45-8c8bdf2fc26b/scratchpad/serve.py"],
+      "port": 4321
+    }
+  ]
+}

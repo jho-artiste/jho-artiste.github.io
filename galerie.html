@@ -23,14 +23,48 @@
 </section>
 
 <section class="filters">
-  <span class="filters-title">Filtre</span>
-  <div class="filter-chips">
-    <button type="button" class="filter-chip active" data-group="reset">Tout</button>
-    <button type="button" class="filter-chip" data-group="status" data-value="available">Disponible</button>
-    <button type="button" class="filter-chip" data-group="status" data-value="sold">Vendue</button>
-    <button type="button" class="filter-chip" data-group="kind" data-value="original">Jho création</button>
-    <button type="button" class="filter-chip" data-group="kind" data-value="custom">Personnalisé</button>
-  </div>
+  <nav class="filter-nav">
+    <button type="button" class="filter-chip filter-reset active" data-group="reset">Tout</button>
+
+    <div class="filter-menu" data-group="category">
+      <button type="button" class="filter-trigger" aria-haspopup="true">
+        <span class="label">Catégorie</span>
+        <svg class="chevron" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+          <path d="M2 4 L6 8 L10 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="filter-panel" role="menu">
+        <button type="button" class="filter-chip" data-group="category" data-value="tableau">Tableau</button>
+        <button type="button" class="filter-chip" data-group="category" data-value="vetement">Vêtement</button>
+      </div>
+    </div>
+
+    <div class="filter-menu" data-group="status">
+      <button type="button" class="filter-trigger" aria-haspopup="true">
+        <span class="label">Disponibilité</span>
+        <svg class="chevron" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+          <path d="M2 4 L6 8 L10 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="filter-panel" role="menu">
+        <button type="button" class="filter-chip" data-group="status" data-value="available">Disponible</button>
+        <button type="button" class="filter-chip" data-group="status" data-value="sold">Vendue</button>
+      </div>
+    </div>
+
+    <div class="filter-menu" data-group="kind">
+      <button type="button" class="filter-trigger" aria-haspopup="true">
+        <span class="label">Type</span>
+        <svg class="chevron" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+          <path d="M2 4 L6 8 L10 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="filter-panel" role="menu">
+        <button type="button" class="filter-chip" data-group="kind" data-value="original">Jho création</button>
+        <button type="button" class="filter-chip" data-group="kind" data-value="custom">Personnalisé</button>
+      </div>
+    </div>
+  </nav>
 </section>
 
 <section class="works alone">

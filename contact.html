@@ -37,20 +37,30 @@
     </div>
   </div>
 
-  <form class="contact-form" onsubmit="event.preventDefault();">
+  <form class="contact-form" id="contact-form" novalidate>
     <div class="fields">
       <div class="field">
         <label for="nom">Nom</label>
-        <input id="nom" type="text" placeholder="Votre nom">
+        <input id="nom" type="text" placeholder="Votre nom" required>
       </div>
       <div class="field">
         <label for="email">Email</label>
-        <input id="email" type="email" placeholder="vous@exemple.com">
+        <input id="email" type="email" placeholder="vous@exemple.com" required>
       </div>
       <div class="field">
         <label for="message">Message</label>
-        <textarea id="message" rows="5" placeholder="Votre message"></textarea>
+        <textarea id="message" rows="5" placeholder="Votre message" required></textarea>
       </div>
+
+      <!-- Vérification anti-spam : petit calcul aléatoire -->
+      <div class="field">
+        <label for="captcha">Vérification anti-spam</label>
+        <div class="captcha-prompt">Combien font <span class="captcha-question">…</span> ?</div>
+        <input id="captcha" type="text" inputmode="numeric" autocomplete="off" placeholder="Votre réponse" required>
+        <div class="captcha-error" role="alert" hidden>Mauvaise réponse — un nouveau calcul vous est proposé.</div>
+      </div>
+
+      <div class="form-status" role="status" hidden></div>
       <button type="submit">Envoyer</button>
     </div>
   </form>
@@ -58,5 +68,53 @@
 
 <jho-footer></jho-footer>
 
+<script>
+  (function () {
+    var form = document.getElementById('contact-form');
+    if (!form) return;
+    var qEl   = form.querySelector('.captcha-question');
+    var ans   = form.querySelector('#captcha');
+    var err   = form.querySelector('.captcha-error');
+    var status = form.querySelector('.form-status');
+    var a, b;
+
+    function newChallenge() {
+      a = Math.floor(Math.random() * 9) + 1; // 1–9
+      b = Math.floor(Math.random() * 9) + 1;
+      qEl.textContent = a + ' + ' + b;
+      ans.value = '';
+    }
+    newChallenge();
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      status.hidden = true;
+
+      // Vérification du calcul
+      if (parseInt(ans.value, 10) !== a + b) {
+        err.hidden = false;
+        newChallenge();
+        ans.focus();
+        return;
+      }
+      err.hidden = true;
+
+      // Validation OK → on ouvre le client mail avec le message pré-rempli
+      var nom     = (form.querySelector('#nom').value || '').trim();
+      var email   = (form.querySelector('#email').value || '').trim();
+      var message = (form.querySelector('#message').value || '').trim();
+      var subject = 'Message via le site — ' + (nom || 'sans nom');
+      var body    = 'De : ' + nom + ' <' + email + '>\n\n' + message;
+      window.location.href =
+        'mailto:atelier@jho-artiste.com'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body='    + encodeURIComponent(body);
+
+      status.textContent = 'Votre client mail s\'ouvre avec le message pré-rempli. Cliquez sur "Envoyer" dedans pour finaliser.';
+      status.hidden = false;
+      newChallenge();
+    });
+  })();
+</script>
 </body>
 </html>

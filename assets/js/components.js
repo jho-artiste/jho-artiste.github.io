@@ -19,7 +19,9 @@
     }).join('');
 
     return ''
-      + '<a href="index.html" class="brand-mark">jho</a>'
+      + '<a href="index.html" class="brand-mark" aria-label="jho — accueil">'
+      +   '<img src="assets/img/Logo complet.svg" alt="jho">'
+      + '</a>'
       + '<button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">'
       +   '<span class="bars"><span></span><span></span><span></span></span>'
       + '</button>'
@@ -45,7 +47,7 @@
     return ''
       + '<div class="footer-grid">'
       +   '<div class="footer-brand">'
-      +     '<div class="logo">jho</div>'
+      +     '<div class="logo"><img src="assets/img/Logo complet.svg" alt="jho"></div>'
       +     '<p>Recevez les actualités de l\'atelier, les nouvelles œuvres et les expositions à venir.</p>'
       +     '<form class="footer-newsletter" onsubmit="event.preventDefault();">'
       +       '<input type="email" placeholder="Votre email" aria-label="Votre email">'
@@ -138,4 +140,152 @@
       this.innerHTML = footerTemplate();
     }
   });
+
+  // ===== Transition de page (inspirée du menu : panneau + courbe SVG) =====
+  (function initPageTransition() {
+    var COVER_MS  = 1000; // durée curve cover (le panel CSS est à 800ms)
+    var REVEAL_MS = 800;  // durée curve reveal, synchro avec le panel
+
+    var rafId = null;
+    var navigating = false;
+    var overlay = null;
+    var path = null;
+
+    function pathFor(qx, h) {
+      // Identique au menu : courbe Q sur le bord gauche du panneau
+      return 'M100 0 L200 0 L200 ' + h + ' L100 ' + h + ' Q' + qx + ' ' + (h / 2) + ' 100 0';
+    }
+
+    // Easing identique au menu (cubic-quartic ease-in-out)
+    function ease(t) {
+      return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
+    }
+
+    function setCurve(qx) {
+      if (!path) return;
+      path.setAttribute('d', pathFor(qx, window.innerHeight));
+    }
+
+    function cancelAnim() {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    }
+
+    function animateCurve(fromQx, toQx, duration, onDone) {
+      cancelAnim();
+      var start = performance.now();
+      function frame(now) {
+        var t = Math.min(1, (now - start) / duration);
+        setCurve(fromQx + (toQx - fromQx) * ease(t));
+        if (t < 1) {
+          rafId = requestAnimationFrame(frame);
+        } else {
+          rafId = null;
+          if (onDone) onDone();
+        }
+      }
+      rafId = requestAnimationFrame(frame);
+    }
+
+    function mount() {
+      var div = document.createElement('div');
+      // .cover dès le mount : le panneau SVG couvre immédiatement, en relai du
+      // pseudo body::before. Les deux sont de la même couleur, aucun saut visuel.
+      div.className = 'page-transition cover';
+      div.setAttribute('aria-hidden', 'true');
+      div.innerHTML = '<svg class="pt-curve" preserveAspectRatio="none"><path d="" /></svg>';
+      document.body.insertBefore(div, document.body.firstChild);
+      overlay = div;
+      path = div.querySelector('path');
+      setCurve(100);
+      // Retire le pseudo CSS — notre overlay SVG prend le relai.
+      document.body.classList.add('pt-ready');
+    }
+
+    function shouldIntercept(a, e) {
+      if (!a || !a.href) return false;
+      if (a.target === '_blank') return false;
+      if (a.hasAttribute('download')) return false;
+      if (a.dataset.noTransition === 'true') return false;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return false;
+      if (e.button !== 0) return false;
+      var url;
+      try { url = new URL(a.href, location.href); } catch (err) { return false; }
+      if (url.origin !== location.origin) return false;
+      if (!/\.html?$/i.test(url.pathname) && url.pathname !== '/' && url.pathname !== '') return false;
+      if (url.pathname === location.pathname && url.search === location.search) return false;
+      return true;
+    }
+
+    function reveal() {
+      // Panneau glisse vers la droite (via CSS), courbe : qx=100 → -100
+      // Le double rAF garantit que la classe initiale (CSS) est commitée
+      // avant qu'on retire .cover, sinon le navigateur peut sauter la transition.
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          overlay.classList.remove('cover');
+          animateCurve(100, -100, REVEAL_MS);
+        });
+      });
+    }
+
+    function cover(href) {
+      overlay.classList.add('active');
+      overlay.classList.add('cover');
+      animateCurve(-100, 100, COVER_MS, function () {
+        location.href = href;
+      });
+    }
+
+    function start() {
+      reveal();
+
+      document.addEventListener('click', function (e) {
+        if (navigating) return;
+        var a = e.target.closest && e.target.closest('a');
+        if (!shouldIntercept(a, e)) return;
+        e.preventDefault();
+        navigating = true;
+        cover(a.href);
+      });
+
+      // Retour cache navigateur (bouton précédent)
+      window.addEventListener('pageshow', function (e) {
+        if (e.persisted) {
+          navigating = false;
+          cancelAnim();
+          overlay.classList.remove('active');
+          overlay.classList.add('cover');
+          setCurve(100);
+          // Force reflow pour que la classe soit commitée avant la révélation
+          void overlay.offsetHeight;
+          reveal();
+        }
+      });
+
+      // Recalcule la hauteur de la courbe au resize si elle est statique
+      window.addEventListener('resize', function () {
+        if (rafId === null && overlay) {
+          setCurve(overlay.classList.contains('cover') ? 100 : -100);
+        }
+      });
+    }
+
+    // Monte aussi tôt que possible — components.js est `defer` donc body existe.
+    if (document.body) {
+      mount();
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', start);
+      } else {
+        start();
+      }
+    } else {
+      document.addEventListener('DOMContentLoaded', function () {
+        mount();
+        start();
+      });
+    }
+  })();
 })();
