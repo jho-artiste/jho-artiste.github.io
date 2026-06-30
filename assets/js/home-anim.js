@@ -5,14 +5,18 @@
     if (!el) return;
     var frag = document.createDocumentFragment();
     el.textContent.split('').forEach(function (ch, i) {
-      var wrap = document.createElement('span');
-      wrap.className = 'anim-char-wrap';
-      var inner = document.createElement('span');
-      inner.className = 'anim-char';
-      inner.style.animationDelay = (i * 0.028) + 's';
-      inner.textContent = ch === ' ' ? ' ' : ch;
-      wrap.appendChild(inner);
-      frag.appendChild(wrap);
+      if (ch === ' ') {
+        frag.appendChild(document.createTextNode(' '));
+      } else {
+        var wrap = document.createElement('span');
+        wrap.className = 'anim-char-wrap';
+        var inner = document.createElement('span');
+        inner.className = 'anim-char';
+        inner.style.animationDelay = (i * 0.028) + 's';
+        inner.textContent = ch;
+        wrap.appendChild(inner);
+        frag.appendChild(wrap);
+      }
     });
     el.textContent = '';
     el.appendChild(frag);
@@ -26,7 +30,6 @@
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    // ── Préparation DOM (invisible, avant anim-ready) ─────────────────
     splitChars(document.querySelector('.hero h1'));
     splitChars(document.querySelector('.intro h2'));
 
@@ -47,13 +50,10 @@
 
     var introH2 = document.querySelector('.intro h2');
 
-    // ── Révélation : attend la fin du préchargeur ─────────────────────
     function doReveal() {
-      // Hero : échelonné
       heroFade.forEach(function (el, i) { reveal(el, 80 + i * 160); });
       reveal(document.querySelector('.hero h1'), 240);
 
-      // Intro : IntersectionObserver
       if (!window.IntersectionObserver) {
         introFade.forEach(function (el) { el.classList.add('revealed'); });
         if (introH2) introH2.classList.add('revealed');

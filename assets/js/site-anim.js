@@ -4,21 +4,24 @@
   function splitChars(el) {
     var frag = document.createDocumentFragment();
     el.textContent.split('').forEach(function (ch, i) {
-      var wrap = document.createElement('span');
-      wrap.className = 'anim-char-wrap';
-      var inner = document.createElement('span');
-      inner.className = 'anim-char';
-      inner.style.animationDelay = (i * 0.028) + 's';
-      inner.textContent = ch === ' ' ? ' ' : ch;
-      wrap.appendChild(inner);
-      frag.appendChild(wrap);
+      if (ch === ' ') {
+        frag.appendChild(document.createTextNode(' '));
+      } else {
+        var wrap = document.createElement('span');
+        wrap.className = 'anim-char-wrap';
+        var inner = document.createElement('span');
+        inner.className = 'anim-char';
+        inner.style.animationDelay = (i * 0.028) + 's';
+        inner.textContent = ch;
+        wrap.appendChild(inner);
+        frag.appendChild(wrap);
+      }
     });
     el.textContent = '';
     el.appendChild(frag);
     el.classList.add('char-anim-text');
   }
 
-  // API pour les titres dynamiques (page oeuvre)
   window.JHO_ANIM = {
     animTitle: function (el) {
       if (!el || el.classList.contains('char-anim-text')) return;
@@ -33,7 +36,6 @@
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    // ── Préparation DOM ───────────────────────────────────────────────
     var charEls = [];
     document.querySelectorAll('h1:not([data-field]), h2').forEach(function (el) {
       splitChars(el);
@@ -58,7 +60,6 @@
       fadeEls.push(el);
     });
 
-    // ── Révélation : attend la fin du préchargeur ─────────────────────
     function doReveal() {
       if (!window.IntersectionObserver) {
         charEls.concat(fadeEls).forEach(function (el) { el.classList.add('revealed'); });
