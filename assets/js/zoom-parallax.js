@@ -20,7 +20,7 @@
 
     tilesData.forEach(function (work, idx) {
       var tile = document.createElement('div');
-      tile.className = 'zp-tile';
+      tile.className = 'zp-tile zp-i' + (idx + 1);
 
       var inner = document.createElement('div');
       inner.className = 'zp-inner';
@@ -42,6 +42,8 @@
 
     var tiles = stage.querySelectorAll('.zp-tile');
     var bgText = stage.querySelector('.zp-bg-text');
+    var bgSub  = stage.querySelector('.zp-bg-sub');
+    var bgCta  = stage.querySelector('.zp-bg-cta');
     var pending = false;
 
     function update() {
@@ -59,8 +61,10 @@
         }
       });
       if (bgText) {
-        var tOpacity = p < 0.40 ? 0 : p > 0.60 ? 1 : (p - 0.40) / 0.20; // ← texte : 40%-60%
-        bgText.style.opacity = tOpacity;
+        var tOpacity = p < 0.40 ? 0 : p > 0.60 ? 1 : (p - 0.40) / 0.20;
+        if (bgText) bgText.style.opacity = tOpacity;
+        if (bgSub)  bgSub.classList.toggle('visible', p >= 0.55);
+        if (bgCta)  bgCta.classList.toggle('visible', p >= 0.60);
       }
 
       pending = false;
