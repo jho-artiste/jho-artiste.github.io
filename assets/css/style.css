@@ -1197,7 +1197,7 @@ body.pt-ready::before { display: none; }
   border-top: 1px solid var(--line-2);
   border-bottom: 1px solid var(--line-2);
   padding: 8px 0;
-  margin-bottom: 36px;
+  margin-bottom: 0;
 }
 .spec-row {
   display: flex;
@@ -1262,9 +1262,8 @@ body.pt-ready::before { display: none; }
   color: var(--bg);
 }
 .learn-more {
-  margin-top: 20px;
-  border-top: 1px solid var(--line);
-  padding-top: 16px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 .learn-more summary {
   list-style: none;
