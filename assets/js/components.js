@@ -19,9 +19,6 @@
     }).join('');
 
     return ''
-      + '<a href="index.html" class="brand-mark" aria-label="jho — accueil">'
-      +   '<img src="assets/img/Logo complet.svg" alt="jho">'
-      + '</a>'
       + '<button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">'
       +   '<span class="bars"><span></span><span></span><span></span></span>'
       + '</button>'
@@ -117,12 +114,24 @@
       animateCurve(next ? -100 : 100, next ? 100 : -100, next ? 1000 : 800);
     }
 
+    // Clic sur le bouton (mobile + fallback)
     toggle.addEventListener('click', function () { setOpen(!isOpen); });
     if (overlay) overlay.addEventListener('click', function () { setOpen(false); });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && isOpen) setOpen(false);
     });
     window.addEventListener('resize', function () { setCurve(isOpen ? 100 : -100); });
+
+    // Ouverture au survol du bord droit (desktop uniquement)
+    if (window.matchMedia('(hover: hover)').matches) {
+      var EDGE = 20; // px depuis le bord droit pour déclencher
+      document.addEventListener('mousemove', function (e) {
+        if (!isOpen && e.clientX >= window.innerWidth - EDGE) setOpen(true);
+      });
+      panel.addEventListener('mouseleave', function () {
+        if (isOpen) setOpen(false);
+      });
+    }
 
     setCurve(-100);
   }

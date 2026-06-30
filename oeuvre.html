@@ -9,10 +9,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/preloader.js" defer></script>
+<script src="assets/js/smooth-scroll.js" defer></script>
+<script src="assets/js/site-anim.js" defer></script>
 <script src="assets/js/components.js" defer></script>
 <script src="assets/js/works.js" defer></script>
 </head>
 <body>
+<div id="preloader" aria-hidden="true"><span class="preloader-num">0</span><span class="preloader-pct">%</span></div>
 
 <jho-header active="galerie"></jho-header>
 
@@ -63,6 +67,11 @@
 
     <div class="specs" data-field="specs"></div>
 
+    <details class="learn-more">
+      <summary>En savoir plus</summary>
+      <p>Cette œuvre a été réalisée entièrement à la main par l'artiste, avec de la peinture acrylique sur toile. Chaque détail est travaillé couche par couche, dans une démarche intuitive mêlant matière et couleur. Une pièce unique, signée et numérotée.</p>
+    </details>
+
     <div class="price" data-field="price-block" hidden>
       <span class="label">Prix</span>
       <span class="value" data-field="price">—</span>
@@ -99,6 +108,7 @@
     var setText = function (sel, txt) { var el = $(sel); if (el) el.textContent = txt; };
 
     setText('[data-field="title-h1"]',    work.title);
+    if (window.JHO_ANIM) window.JHO_ANIM.animTitle($('[data-field="title-h1"]'));
     setText('[data-field="description"]', work.description || '');
 
     var kindLabel         = { original: 'Jho création', custom: 'Personnalisé' }[work.kind] || '—';

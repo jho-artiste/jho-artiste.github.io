@@ -1153,7 +1153,7 @@ body.pt-ready::before { display: none; }
   color: var(--ink);
   transition: background .2s ease, border-color .2s ease;
 }
-.carousel-arrow:hover { background: var(--cream); border-color: var(--ink); }
+.carousel-arrow:hover { background: var(--green); border-color: var(--green); color: var(--bg); }
 .carousel-arrow[hidden] { display: none; }
 
 /* Points de navigation — en dehors de l'image */
@@ -1260,6 +1260,38 @@ body.pt-ready::before { display: none; }
   background: var(--green);
   border-color: var(--green);
   color: var(--bg);
+}
+.learn-more {
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.learn-more summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color .25s ease;
+}
+.learn-more summary::-webkit-details-marker { display: none; }
+.learn-more summary::after {
+  content: '+';
+  font-size: 14px;
+  line-height: 1;
+  transition: transform .25s ease;
+}
+.learn-more[open] summary::after { transform: rotate(45deg); }
+.learn-more summary:hover { color: var(--ink); }
+.learn-more p {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
 }
 .btn-outline {
   display: block;
@@ -1562,3 +1594,67 @@ jho-footer .lines a:hover { color: var(--bg); }
   }
   .contact-form { padding: 32px 24px; }
 }
+
+/* ── Préchargeur ─────────────────────────────────────────────────── */
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg, #f4f1ea);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform .9s cubic-bezier(.76, 0, .24, 1);
+}
+#preloader.hide { transform: translateY(-100%); }
+.preloader-num {
+  font-family: var(--serif, 'Cormorant Garamond', serif);
+  font-size: clamp(80px, 14vw, 130px);
+  font-weight: 300;
+  color: var(--ink, #1a1a1a);
+  letter-spacing: -.02em;
+  line-height: 1;
+}
+.preloader-pct {
+  font-family: var(--sans, 'Montserrat', sans-serif);
+  font-size: clamp(16px, 2.5vw, 24px);
+  font-weight: 300;
+  color: var(--muted, #888);
+  align-self: flex-end;
+  padding-bottom: .18em;
+}
+
+/* ── Animations d'apparition — Home ──────────────────────────────── */
+@keyframes jho-fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes jho-char-up {
+  from { transform: translateY(110%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Fondu + montée */
+.fade-up-el {
+  opacity: 0;
+  transform: translateY(28px);
+  animation: jho-fade-up 1s cubic-bezier(.22, 1, .36, 1) both;
+  animation-play-state: paused;
+}
+.fade-up-el.revealed { animation-play-state: running; }
+
+/* Révélation lettre par lettre (titres) */
+.anim-char-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.anim-char {
+  display: inline-block;
+  transform: translateY(110%);
+  opacity: 0;
+  animation: jho-char-up .6s cubic-bezier(.22, 1, .36, 1) both;
+  animation-play-state: paused;
+}
+.char-anim-text.revealed .anim-char { animation-play-state: running; }
